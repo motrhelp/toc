@@ -23,6 +23,7 @@ const CloudNode: React.FC<{ text: string; onTextChange?: (newText: string) => vo
                 aspectRatio: '1',
                 display: 'flex',
                 bgcolor: 'primary.main',
+                overflow: 'hidden',
             }}
         >
             <TextField
