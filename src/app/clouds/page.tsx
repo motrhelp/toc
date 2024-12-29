@@ -3,7 +3,14 @@ import React from 'react';
 
 const Page: React.FC = () => {
     return (
-        <div>
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '84vh',
+            }}
+        >
            <EvaporatingCloud />
         </div>
     );
