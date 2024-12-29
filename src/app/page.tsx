@@ -2,6 +2,8 @@
 
 export default function Home() {
   return (
-    <div></div>
+    <div>
+      Homepage is at /clouds.
+    </div>
   );
 }
