@@ -24,6 +24,7 @@ const CloudNode: React.FC<{ text: string; onTextChange?: (newText: string) => vo
                 display: 'flex',
                 bgcolor: 'primary.main',
                 overflow: 'hidden',
+                maxHeight: '210px',
             }}
         >
             <TextField
