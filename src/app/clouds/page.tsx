@@ -1,4 +1,4 @@
-import EvaporatingCloud from '@/components/EvaporatingCloud';
+import EvaporatingCloud from '@/components/clouds/EvaporatingCloud';
 import React from 'react';
 
 const Page: React.FC = () => {
