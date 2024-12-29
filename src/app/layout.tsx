@@ -1,5 +1,5 @@
-import "./globals.css";
 import type { Metadata } from "next";
+import "./globals.css";
 
 // Import your client component
 import LayoutClient from "@/components/LayoutClient";

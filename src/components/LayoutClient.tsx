@@ -1,16 +1,16 @@
 "use client";
 
-import React from "react";
-import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import {
-  AppBar,
-  Box,
-  Container,
-  CssBaseline,
-  Toolbar,
-  Typography,
+    AppBar,
+    Box,
+    Container,
+    CssBaseline,
+    Toolbar,
+    Typography,
 } from "@mui/material";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import React from "react";
 
 // Example fonts from your snippet
 import { Geist, Geist_Mono } from "next/font/google";
