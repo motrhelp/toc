@@ -3,6 +3,7 @@ import "./globals.css";
 
 // Import your client component
 import LayoutClient from "@/components/LayoutClient";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 
 export const metadata: Metadata = {
   title: "Clouds",
@@ -18,10 +19,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        {/* Render your client layout */}
-        <LayoutClient>
-          {children}
-        </LayoutClient>
+        <AppRouterCacheProvider>
+          <LayoutClient>
+            {children}
+          </LayoutClient>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
