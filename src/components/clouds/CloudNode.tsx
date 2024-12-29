@@ -1,51 +1,53 @@
 'use client';
 
-import { Card, CardActionArea, CardContent, Typography } from '@mui/material';
-import React from 'react';
+import { Paper, TextField } from '@mui/material';
+import React, { useState } from 'react';
 
-// Utility function to calculate dynamic font size based on screen width
-const calculateFontSize = (width: number): string => {
-    const baseFontSize = 16; // Base font size in px
-    const scaleFactor = 0.02; // Adjust this factor to control the scaling
-    const calculatedSize = baseFontSize + width * scaleFactor;
-    return `${Math.min(Math.max(calculatedSize, 12), 48)}px`; // Clamp between 12px and 48px
-};
+const CloudNode: React.FC<{ text: string; onTextChange?: (newText: string) => void }> = ({
+    text,
+    onTextChange,
+}) => {
+    const [editableText, setEditableText] = useState(text);
 
-const CloudNode: React.FC<{ text: string }> = ({ text }) => {
-    const [windowWidth, setWindowWidth] = React.useState<number | null>(null);
-
-    React.useEffect(() => {
-        // Check for window during client-side rendering
-        const handleResize = () => setWindowWidth(window.innerWidth);
-        handleResize(); // Set initial width
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    const fontSize = windowWidth !== null ? calculateFontSize(windowWidth) : '16px'; // Default font size during SSR
+    const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newText = e.target.value;
+        setEditableText(newText);
+        if (onTextChange) {
+            onTextChange(newText);
+        }
+    };
 
     return (
-        <Card
-            style={{
-                aspectRatio: '2 / 1',
+        <Paper
+            sx={{
+                aspectRatio: '1',
+                display: 'flex',
+                bgcolor: 'primary.main',
             }}
-            onClick={() => {}}
         >
-            <CardActionArea>
-                <CardContent
-                    style={{
+            <TextField
+                value={editableText}
+                onChange={handleTextChange}
+                multiline
+                fullWidth
+                color='secondary'
+                sx={{
+                    flex: 1,
+                    // Make the root fill the Paper and enable flex layout
+                    '& .MuiInputBase-root': {
+                        height: '100%',
                         display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        aspectRatio: '2 / 1',
-                    }}
-                >
-                    <Typography variant="h4" style={{ fontSize }}>
-                        {text}
-                    </Typography>
-                </CardContent>
-            </CardActionArea>
-        </Card>
+                        alignItems: 'center',      // vertically center text
+                        justifyContent: 'center',  // horizontally center text
+                    },
+                    // Optionally center-align the text in each line
+                    '& .MuiInputBase-input': {
+                        textAlign: 'center',
+                    },
+                    overflow: 'scroll',
+                }}
+            />
+        </Paper>
     );
 };
 
