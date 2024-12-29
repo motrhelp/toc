@@ -12,16 +12,17 @@ const calculateFontSize = (width: number): string => {
 };
 
 const CloudNode: React.FC<{ text: string }> = ({ text }) => {
-    // Get screen width dynamically
-    const [windowWidth, setWindowWidth] = React.useState<number>(window.innerWidth);
+    const [windowWidth, setWindowWidth] = React.useState<number | null>(null);
 
     React.useEffect(() => {
+        // Check for window during client-side rendering
         const handleResize = () => setWindowWidth(window.innerWidth);
+        handleResize(); // Set initial width
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const fontSize = calculateFontSize(windowWidth);
+    const fontSize = windowWidth !== null ? calculateFontSize(windowWidth) : '16px'; // Default font size during SSR
 
     return (
         <Card
