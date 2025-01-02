@@ -1,7 +1,6 @@
-import { Fab } from '@mui/material';
-import React from 'react';
-import AddIcon from '@mui/icons-material/Add';
+import AddCloudFab from '@/components/clouds/AddCloudFab';
 import CloudsContextProvider from '@/context/clouds/CloudsContextProvider';
+import React from 'react';
 
 
 
@@ -13,15 +12,7 @@ export default function Layout({
     return (
         <div>
             <CloudsContextProvider>
-                <Fab
-                    color='primary'
-                    sx={{
-                        position: 'fixed',
-                        bottom: 32,
-                        right: 32,
-                    }}>
-                    <AddIcon />
-                </Fab>
+                <AddCloudFab />
                 {children}
             </CloudsContextProvider>
         </div>
