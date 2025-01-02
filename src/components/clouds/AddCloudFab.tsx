@@ -6,11 +6,7 @@ import { Fab } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
-interface AddCloudFabProps {
-    // Define your component props here
-}
-
-const AddCloudFab: React.FC<AddCloudFabProps> = () => {
+const AddCloudFab: React.FC = () => {
     const { createCloud } = useCloudsContext();
     const router = useRouter();
 
