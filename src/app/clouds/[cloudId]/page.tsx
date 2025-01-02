@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import EvaporatingCloud from '@/components/clouds/EvaporatingCloud';
 import React from 'react';
 
 
@@ -12,7 +12,7 @@ const Page: React.FC = () => {
                 height: '84vh',
             }}
         >
-            <Typography variant='h2'>Clouds at your fingertips</Typography>
+            <EvaporatingCloud />
         </div>
     );
 };
