@@ -14,9 +14,6 @@ const AddCloudFab: React.FC = () => {
         const newCloud = createCloud();
         router.push('/clouds/' + newCloud.id);
     };
-    useEffect(() => {
-        handleAddCloud();
-    }, []);
 
     return (
         <div>

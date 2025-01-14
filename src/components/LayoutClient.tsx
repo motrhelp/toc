@@ -93,8 +93,7 @@ export default function LayoutClient({ children }: LayoutClientProps) {
                       Clouds Menu
                     </Button>
                     <Menu {...bindMenu(popupState)}>
-                      <MenuItem onClick={() => handleMenuChoice(popupState, router, "/clouds/")}>Make a cloud</MenuItem>
-                      <MenuItem onClick={() => handleMenuChoice(popupState, router, "/listOfClouds/")}>List of clouds</MenuItem>
+                      <MenuItem onClick={() => handleMenuChoice(popupState, router, "/clouds/")}>List of clouds</MenuItem>
                       <MenuItem onClick={() => handleMenuChoice(popupState, router, "/login/")}>Login/Logout</MenuItem>
                     </Menu>
                   </React.Fragment>
