@@ -1,13 +1,17 @@
 "use client";
 
 import {
-    AppBar,
-    Box,
-    Container,
-    CssBaseline,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
 } from "@mui/material";
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
@@ -34,7 +38,7 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#FFC107", 
+      main: "#FFC107",
       contrastText: "#000", // Black text on mustard background
     },
     secondary: {
@@ -75,9 +79,23 @@ export default function LayoutClient({ children }: LayoutClientProps) {
           {/* Top Navigation Bar */}
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+              {/* <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 Clouds
-              </Typography>
+              </Typography> */}
+              <PopupState variant="popover" popupId="demo-popup-menu">
+                {(popupState) => (
+                  <React.Fragment>
+                    <Button variant="contained" {...bindTrigger(popupState)}>
+                      Clouds Menu
+                    </Button>
+                    <Menu {...bindMenu(popupState)}>
+                      <MenuItem onClick={popupState.close}>List of clouds</MenuItem>
+                      <MenuItem onClick={popupState.close}>Login/Logout</MenuItem>
+                      <MenuItem onClick={popupState.close}>100 clouds challenge</MenuItem>
+                    </Menu>
+                  </React.Fragment>
+                )}
+              </PopupState>
             </Toolbar>
           </AppBar>
 
