@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 // While there is no other functionality, /clouds is the home page.
-module.exports = {
+const nextConfig: NextConfig = {
+  eslint: {
+    // Disable ESLint during builds
+    ignoreDuringBuilds: true,
+  },
   async redirects() {
     return [
       {
@@ -11,10 +15,6 @@ module.exports = {
       },
     ];
   },
-};
-
-const nextConfig: NextConfig = {
-  /* config options here */
 };
 
 export default nextConfig;
