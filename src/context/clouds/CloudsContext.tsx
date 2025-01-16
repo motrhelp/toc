@@ -1,26 +1,39 @@
-'use client'
+'use client';
 
 import { createContext, ReactNode, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 export interface Cloud {
-    id: string;
+  id: string;
+  A?: string;
+  B?: string;
+  C?: string;
+  D?: string;
+  D_?: string;
 }
 
 type CloudsContextType = {
-    clouds: Cloud[];
-    createCloud: () => Cloud;
+  clouds: Cloud[];
+  createCloud: () => Cloud;
 };
 
 const CloudsContext = createContext<CloudsContextType | undefined>(undefined);
 
 export const CloudsProvider = ({ children }: { children: ReactNode }) => {
-    const [clouds, setClouds] = useState<Cloud[]>([]);
-    const createCloud = () => {
-        const newCloud = { id:  uuidv4() };
-        setClouds([...clouds, newCloud]);
-        return newCloud;
+  const [clouds, setClouds] = useState<Cloud[]>([]);
+
+  const createCloud = () => {
+    const newCloud: Cloud = {
+      id: uuidv4(),
+      A: '',
+      B: '',
+      C: '',
+      D: '',
+      D_: '',
     };
+    setClouds((prev) => [...prev, newCloud]);
+    return newCloud;
+  };
 
   return (
     <CloudsContext.Provider value={{ clouds, createCloud }}>

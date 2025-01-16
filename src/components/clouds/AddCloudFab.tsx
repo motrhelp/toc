@@ -4,7 +4,7 @@ import useCloudsContext from '@/context/clouds/useCloudsContext';
 import AddIcon from '@mui/icons-material/Add';
 import { Fab } from '@mui/material';
 import { useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 const AddCloudFab: React.FC = () => {
     const { createCloud } = useCloudsContext();
