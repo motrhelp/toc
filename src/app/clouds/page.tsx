@@ -8,7 +8,7 @@ const tiles = [
     { text1: 'Red', text2: 'Blue' },
 ];
 
-const TileGallery: React.FC = () => {
+const AllCloudsGallery: React.FC = () => {
     return (
         <Box sx={{ padding: '20px' }}>
             <Grid container spacing={3}>
@@ -75,4 +75,4 @@ const styles = {
     },
 };
 
-export default TileGallery;
+export default AllCloudsGallery;
