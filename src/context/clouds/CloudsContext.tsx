@@ -2,8 +2,6 @@
 
 import { createContext, ReactNode, useEffect, useState, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { doc, setDoc } from 'firebase/firestore';
-import { db } from '@/db/firebase'; // adjust path if needed
 
 export interface Cloud {
   id: string;
@@ -30,9 +28,7 @@ const CloudsContext = createContext<CloudsContextType | undefined>(undefined);
 export const CloudsProvider = ({ children }: { children: ReactNode }) => {
   const [clouds, setClouds] = useState<Cloud[]>([]);
 
-  /**
-   * Fetch existing clouds from the Next.js route and store in local state.
-   */
+  // Load existing clouds from /api/clouds
   useEffect(() => {
     const loadClouds = async () => {
       console.log('Loading clouds from Next.js route...');
@@ -52,8 +48,7 @@ export const CloudsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Create a new Cloud in local state only (for now).
-   * We'll leave it to updateCloud to persist once it has any content.
+   * Create a new Cloud in local state only.
    */
   const createCloud = useCallback(() => {
     const newCloud: Cloud = {
@@ -69,20 +64,26 @@ export const CloudsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   /**
-   * Merge partial updates into the targeted Cloud,
-   * then persist to Firestore if it has any content.
+   * Update a Cloud in local state, then PATCH it to /api/clouds if it has any content.
    */
   const updateCloud = useCallback((id: string, newValues: Partial<Cloud>) => {
     setClouds((prevClouds) => {
       return prevClouds.map((cloud) => {
         if (cloud.id === id) {
           const updated = { ...cloud, ...newValues };
+
           if (hasAnyContent(updated)) {
-            const ref = doc(db, 'clouds', id);
-            setDoc(ref, updated).catch((err) => {
-              console.error('Error saving cloud to Firestore:', err);
+            fetch('/api/clouds', {
+              method: 'PATCH',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(updated),
+            }).catch((err) => {
+              console.error('Error PATCHing cloud to Next.js route:', err);
             });
           }
+
           return updated;
         }
         return cloud;
