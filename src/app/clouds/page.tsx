@@ -1,7 +1,8 @@
 "use client";
 
 import { useContext } from "react";
-import { Grid, Box, Typography } from "@mui/material";
+import Grid from "@mui/material/Grid2";
+import { Box, Typography } from "@mui/material";
 import CloudsContext from "@/context/clouds/CloudsContext";
 
 const AllCloudsGallery: React.FC = () => {
@@ -9,14 +10,12 @@ const AllCloudsGallery: React.FC = () => {
 
     if (!clouds || clouds.length === 0) {
         return <Typography>No clouds available. Add some clouds to get started!</Typography>;
-    } else {
-        console.log("CLOUDS", clouds);
     }
 
     return (
         <Grid container spacing={3}>
             {clouds.map((cloud) => (
-                <Grid item xs={12} sm={6} md={4} key={cloud.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cloud.id}>
                     <Box sx={styles.tile}>
                         <Typography sx={{ ...styles.text, ...styles.topLeft }}>
                             {cloud.D}
@@ -50,7 +49,6 @@ const styles = {
       #0343fc 80%,
       #0343fc 100%
     )`,
-        overflow: "hidden",
         borderRadius: "8px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
     },
