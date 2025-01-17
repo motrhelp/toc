@@ -35,8 +35,8 @@ const Page: React.FC<PageProps> = ({ params }) => {
 
   // If not found, handle accordingly (e.g., show a 404 or create a new cloud)
   if (!cloud) {
-    // TODO: Show a 404 page if desired
-    cloud = createCloud();
+      // TODO: Show a 404 page if desired
+      return <div>Having trouble loading cloud {cloudId} 🤔</div>;
   }
 
   return (
