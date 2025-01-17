@@ -10,11 +10,11 @@ interface EvaporatingCloudProps {
 
 // Default placeholders if cloud text is empty
 const PLACEHOLDERS = {
-  A: 'Reduce cost per unit',
-  B: 'Reduce setup cost per unit',
-  C: 'Reduce carrying cost per unit',
-  D: 'Run large batches',
-  D_: 'Run small batches',
+  A: 'A\nWhat common objective will be achieved by meeting both need B and need C?',
+  B: 'B\nWhat need is satisfied by their action in D?',
+  C: 'C\nWhat need is satisfied by my action?',
+  D: 'D\nWhat action does the other side want to do/do I feel under pressure to do?',
+  D_: 'D\'\nWhat is the action I want to do?',
 };
 
 const EvaporatingCloud: React.FC<EvaporatingCloudProps> = ({ cloud }) => {
@@ -26,16 +26,16 @@ const EvaporatingCloud: React.FC<EvaporatingCloudProps> = ({ cloud }) => {
         <Grid size={4} />
         <Grid size={4}>
           <CloudNode
-            text={cloud.A}
-            placeholder={PLACEHOLDERS.A}
-            onTextChange={(newText) => updateCloud(cloud.id, { A: newText })}
+            text={cloud.B}
+            placeholder={PLACEHOLDERS.B}
+            onTextChange={(newText) => updateCloud(cloud.id, { B: newText })}
           />
         </Grid>
         <Grid size={4}>
           <CloudNode
-            text={cloud.B}
-            placeholder={PLACEHOLDERS.B}
-            onTextChange={(newText) => updateCloud(cloud.id, { B: newText })}
+            text={cloud.D}
+            placeholder={PLACEHOLDERS.D}
+            onTextChange={(newText) => updateCloud(cloud.id, { D: newText })}
           />
         </Grid>
       </Grid>
@@ -43,9 +43,9 @@ const EvaporatingCloud: React.FC<EvaporatingCloudProps> = ({ cloud }) => {
       <Grid container size={12}>
         <Grid size={4}>
           <CloudNode
-            text={cloud.D}
-            placeholder={PLACEHOLDERS.D}
-            onTextChange={(newText) => updateCloud(cloud.id, { D: newText })}
+            text={cloud.A}
+            placeholder={PLACEHOLDERS.A}
+            onTextChange={(newText) => updateCloud(cloud.id, { A: newText })}
           />
         </Grid>
       </Grid>
