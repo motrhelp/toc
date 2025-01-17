@@ -1,19 +1,23 @@
 "use client";
 
 import {
-    AppBar,
-    Box,
-    Container,
-    CssBaseline,
-    Toolbar,
-    Typography,
+  AppBar,
+  Box,
+  Button,
+  Container,
+  CssBaseline,
+  Menu,
+  MenuItem,
+  Toolbar
 } from "@mui/material";
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import React from "react";
 
 // Example fonts from your snippet
 import { Geist, Geist_Mono } from "next/font/google";
+import { useRouter } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,7 +38,7 @@ const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#FFC107", 
+      main: "#FFC107",
       contrastText: "#000", // Black text on mustard background
     },
     secondary: {
@@ -59,7 +63,14 @@ interface LayoutClientProps {
   children: React.ReactNode;
 }
 
+function handleMenuChoice(popupState: any, router: any, path: string) {
+  popupState.close();
+  router.push(path);
+}
+
 export default function LayoutClient({ children }: LayoutClientProps) {
+  const router = useRouter();
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -75,9 +86,19 @@ export default function LayoutClient({ children }: LayoutClientProps) {
           {/* Top Navigation Bar */}
           <AppBar position="static">
             <Toolbar>
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                Clouds
-              </Typography>
+              <PopupState variant="popover" popupId="demo-popup-menu">
+                {(popupState) => (
+                  <React.Fragment>
+                    <Button variant="contained" {...bindTrigger(popupState)}>
+                      Clouds Menu
+                    </Button>
+                    <Menu {...bindMenu(popupState)}>
+                      <MenuItem onClick={() => handleMenuChoice(popupState, router, "/clouds/")}>List of clouds</MenuItem>
+                      <MenuItem onClick={() => handleMenuChoice(popupState, router, "/login/")}>Login/Logout</MenuItem>
+                    </Menu>
+                  </React.Fragment>
+                )}
+              </PopupState>
             </Toolbar>
           </AppBar>
 
