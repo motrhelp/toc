@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { collection, doc, getDocs, setDoc } from 'firebase/firestore';
+import { collection, doc, getDocs, query, setDoc, where } from 'firebase/firestore';
 import { db } from '@/db/firebase';
 
 /**
  * GET /api/clouds?user=<userId>
- * Returns all clouds for the provided user (or all if multi-user not implemented).
+ * Returns all clouds for the provided user.
  */
 export async function GET(req: NextRequest): Promise<NextResponse> {
   try {
@@ -16,15 +16,18 @@ export async function GET(req: NextRequest): Promise<NextResponse> {
       );
     }
 
-    // Retrieve from Firestore
-    const cloudsCol = collection(db, 'clouds');
-    const cloudSnapshot = await getDocs(cloudsCol);
-    const clouds = cloudSnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
+    // Retrieve corresponding /clouds from Firestore
+    const qOwned = query(
+      collection(db, 'clouds'),
+      where('ownerId', '==', user)
+    );
+    const querySnapshot = await getDocs(qOwned);
+    const clouds: any[] = [];
+    querySnapshot.forEach((doc) => {
+      clouds.push({ id: doc.id, ...doc.data() });
+    });
 
-    // Return the entire array (or the filtered array)
+    // Return  the clouds
     return NextResponse.json(clouds, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },

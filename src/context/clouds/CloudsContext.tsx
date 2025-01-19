@@ -10,6 +10,7 @@ export interface Cloud {
   C?: string;
   D?: string;
   D_?: string;
+  ownerId?: string;
 }
 
 type CloudsContextType = {
@@ -58,6 +59,7 @@ export const CloudsProvider = ({ children }: { children: ReactNode }) => {
       C: '',
       D: '',
       D_: '',
+      ownerId: '1',
     };
     setClouds((prev) => [...prev, newCloud]);
     return newCloud;
