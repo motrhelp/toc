@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import Grid from "@mui/material/Grid2";
 import { useRouter } from "next/navigation";
 import { Box, Typography } from "@mui/material";
@@ -8,7 +8,14 @@ import CloudsContext from "@/context/clouds/CloudsContext";
 
 const AllCloudsGallery: React.FC = () => {
     const router = useRouter();
-    const { clouds } = useContext(CloudsContext) || {};
+    const { clouds, getCloudsByUser } = useContext(CloudsContext) || {};
+
+    useEffect(() => {
+        // This enables lazy loading of the clouds. TODO: Move it out of the page
+        if (getCloudsByUser) {
+            getCloudsByUser("1").catch(console.error);
+        }
+    }, [getCloudsByUser]);
 
     if (!clouds || clouds.length === 0) {
         return <Typography>No clouds available. Add some clouds to get started!</Typography>;
