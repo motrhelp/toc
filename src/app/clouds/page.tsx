@@ -2,21 +2,30 @@
 
 import { useContext } from "react";
 import Grid from "@mui/material/Grid2";
+import { useRouter } from "next/navigation";
 import { Box, Typography } from "@mui/material";
 import CloudsContext from "@/context/clouds/CloudsContext";
 
 const AllCloudsGallery: React.FC = () => {
+    const router = useRouter();
     const { clouds } = useContext(CloudsContext) || {};
 
     if (!clouds || clouds.length === 0) {
         return <Typography>No clouds available. Add some clouds to get started!</Typography>;
     }
 
+    const handleTileClick = (id: string) => {
+        router.push(`/clouds/${id}`);
+    };
+
     return (
         <Grid container spacing={3}>
             {clouds.map((cloud) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cloud.id}>
-                    <Box sx={styles.tile}>
+                    <Box
+                        sx={styles.tile}
+                        onClick={() => handleTileClick(cloud.id)}
+                    >
                         <Typography sx={{ ...styles.text, ...styles.topLeft }}>
                             {cloud.D}
                         </Typography>
@@ -51,6 +60,13 @@ const styles = {
     )`,
         borderRadius: "8px",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+        cursor: "pointer",
+        // stand out on hover (to be clear it is clickable)
+        transition: "transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out",
+        "&:hover": {
+            transform: "scale(1.02)",
+            boxShadow: "0 8px 12px rgba(0,0,0,0.2)",
+        },
     },
     text: {
         color: "#fff",
