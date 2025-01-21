@@ -1,22 +1,48 @@
 "use client"
+
 import React, { useState } from 'react';
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, TextField, Typography, Alert } from '@mui/material';
+import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '@/db/firebase';
 
 const Page: React.FC = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // TODO: Add your logic to handle the username login
-        setIsLoggedIn(true);
-        console.log(`Username: ${username}`);
+        setError('');
+
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+            setIsLoggedIn(true);
+            console.log(`Logged in as: ${email}`);
+        } catch (error: any) {
+            setError(error.message);
+        }
     };
 
-    function handleLogout() {
-        console.log(`Logout for: ${username}`);
-        setUsername("");
+    const handleForgotPassword = async () => {
+        if (!email) {
+            setError('Please enter your email to reset your password.');
+            return;
+        }
+
+        try {
+            await sendPasswordResetEmail(auth, email);
+            setError('Password reset email sent.');
+        } catch (error: any) {
+            setError(error.message);
+        }
+    };
+
+    const handleLogout = () => {
         setIsLoggedIn(false);
+        setEmail('');
+        setPassword('');
+        console.log(`Logged out.`);
     };
 
     return (
@@ -30,10 +56,8 @@ const Page: React.FC = () => {
             }}
         >
             {isLoggedIn ? (
-                <Button
-                    variant="contained"
-                    onClick={handleLogout}>
-                    Log out {username}
+                <Button variant="contained" onClick={handleLogout}>
+                    Log out
                 </Button>
             ) : (
                 <>
@@ -41,17 +65,37 @@ const Page: React.FC = () => {
                         Login
                     </Typography>
 
-                    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {error && <Alert severity="error">{error}</Alert>}
+
+                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                         <TextField
+                            label="Email"
                             variant="outlined"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
+                            type="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                        <TextField
+                            label="Password"
+                            variant="outlined"
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                         <Button type="submit" variant="contained">
                             Login
                         </Button>
                     </form>
+
+                    <Button
+                        style={{ marginTop: '1rem' }}
+                        variant="text"
+                        onClick={handleForgotPassword}
+                    >
+                        Forgot Password?
+                    </Button>
                 </>
             )}
         </div>
