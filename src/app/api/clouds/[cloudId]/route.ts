@@ -4,10 +4,10 @@ import { db } from '@/db/firebase';
 
 export async function GET(
     request: Request,
-    { params }: { params: { cloudId: string } }
+    { params }: { params: Promise<{ cloudId: string }> }
 ) {
     try {
-        const { cloudId } = params;
+        const cloudId = (await params).cloudId
 
         if (!cloudId) {
             return NextResponse.json(
