@@ -2,16 +2,12 @@ import { NextResponse } from 'next/server';
 import { doc, getDoc } from 'firebase/firestore';
 import { db } from '@/db/firebase';
 
-/**
- * GET /api/clouds/[cloudId]
- * Returns a single cloud doc by ID.
- */
 export async function GET(
     request: Request,
-    context: { params: { cloudId: string } }
+    { params }: { params: { cloudId: string } }
 ) {
     try {
-        const { cloudId } = context.params;
+        const { cloudId } = params;
 
         if (!cloudId) {
             return NextResponse.json(
