@@ -89,7 +89,7 @@ export default function LayoutClient({ children }: LayoutClientProps) {
           <AppBar position="static">
             <Toolbar>
               {isBackEnabled &&
-                <IconButton onClick={() => router.back()} color="inherit">
+                <IconButton onClick={() => router.push("/clouds")} color="inherit">
                   <ArrowBackIcon />
                 </IconButton>
               }
