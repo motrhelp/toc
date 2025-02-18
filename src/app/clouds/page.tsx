@@ -1,23 +1,26 @@
 "use client";
 
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import { useRouter } from "next/navigation";
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 import CloudsContext from "@/context/clouds/CloudsContext";
 
 const AllCloudsGallery: React.FC = () => {
     const router = useRouter();
     const { clouds, getCloudsByUser } = useContext(CloudsContext) || {};
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         // This enables lazy loading of the clouds. TODO: Move it out of the page
         if (getCloudsByUser) {
-            getCloudsByUser("1").catch(console.error);
+            getCloudsByUser("1")
+                .then(() => setLoading(false))
+                .catch(console.error);
         }
     }, [getCloudsByUser]);
 
-    if (!clouds || clouds.length === 0) {
+    if (!loading && (!clouds || clouds.length === 0)) {
         return <Typography>No clouds available. Add some clouds to get started!</Typography>;
     }
 
@@ -27,27 +30,34 @@ const AllCloudsGallery: React.FC = () => {
 
     return (
         <Grid container spacing={3}>
-            {clouds.map((cloud) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cloud.id}>
-                    <Box
-                        sx={styles.tile}
-                        onClick={() => handleTileClick(cloud.id)}
-                    >
-                        <Typography sx={{ ...styles.text, ...styles.topLeft }}>
-                            {cloud.D}
-                        </Typography>
-                        <Typography sx={{ ...styles.text, ...styles.bottomRight }}>
-                            {cloud.D_}
-                        </Typography>
+            {loading &&
+                Array.from({ length: 6 }, (_, i) => i).map((i) =>
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={i}>
+                        <Skeleton variant="rectangular" width="100%" height="100%" sx={styles.tile} />
+                    </Grid>
+                )
+            }
+            {clouds?.map((cloud) => (
+                    <Grid size={{ xs: 12, sm: 6, md: 4 }} key={cloud.id}>
                         <Box
-                            component="img"
-                            src="/vs.png"
-                            alt="VS"
-                            sx={styles.vsImage}
-                        />
-                    </Box>
-                </Grid>
-            ))}
+                            sx={styles.tile}
+                            onClick={() => handleTileClick(cloud.id)}
+                        >
+                            <Typography sx={{ ...styles.text, ...styles.topLeft }}>
+                                {cloud.D}
+                            </Typography>
+                            <Typography sx={{ ...styles.text, ...styles.bottomRight }}>
+                                {cloud.D_}
+                            </Typography>
+                            <Box
+                                component="img"
+                                src="/vs.png"
+                                alt="VS"
+                                sx={styles.vsImage}
+                            />
+                        </Box>
+                    </Grid>
+                ))}
         </Grid>
     );
 };
